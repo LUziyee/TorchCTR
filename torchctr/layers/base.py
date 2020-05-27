@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-#
-#-------------------------------------------------------------------------------
-# Name:         base
-# Description:
-# Author:       路子野
-# Date:         2020/5/26
-#-------------------------------------------------------------------------------
+"""
+Name:         base
+Author:       路子野
+Date:         2020/5/26
+"""
 
 import torch
-from .activation import activation_layer
+from torchctr.layers.activation import activation_layer
 
 class DNN(torch.nn.Module):
     '''
@@ -30,7 +29,7 @@ class DNN(torch.nn.Module):
         :param dropout_rate: float used to initialize layers' weight
         :param init_std:
         """
-        super().__init__(self)
+        super().__init__()
 
         self.input_dim = input_dim
         self.hidden_units = hidden_units

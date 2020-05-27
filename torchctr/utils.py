@@ -14,18 +14,22 @@ from torch.utils.data import Dataset
 class TorchCtrData(Dataset):
     def __init__(self,x,y):
         """
-        :param x: ndarray with shape ``(field,date_len)``
+        :param x: ndarray with shape ``(field*module,date_len)``
         :param y: ndarray with shape ``(data_len,)``
         """
         super().__init__()
 
-        self.x = x.reshape(-1,x.shape[0])
-        self.y = y.reshape(-1,1)
+        """
+        这里有一个坑，关于reshape还是T的问题。
+        """
+        self.x = x.T
+        self.y = y
 
     def __getitem__(self, index):
-        sample_x = self.x[index]
-        sample_y = self.y[index]
-        return (sample_x,sample_y)
+        sample_x = self.x[index].tolist()
+        sample_y = self.y[index].tolist()
+        sample_x.extend(sample_y)
+        return sample_x
 
     def __len__(self):
         return self.x.shape[0]
@@ -35,8 +39,9 @@ def collate_fn(batch):
     :param batch: tuple (batch_x,batch_y)
     :return:
     """
-    df_x,df_y = batch
-    tensor_x = torch.tensor(df_x)
-    tensor_y = torch.tensor(df_y)
+    batch = np.array(batch)
+    array_x,array_y = batch[:,:-1],batch[:,-1]
+    tensor_x = torch.tensor(array_x)
+    tensor_y = torch.tensor(array_y)
     return tensor_x,tensor_y
 

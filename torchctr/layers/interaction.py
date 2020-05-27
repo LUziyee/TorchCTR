@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-#
-#-------------------------------------------------------------------------------
-# Name:         interaction
-# Description:
-# Author:       路子野
-# Date:         2020/5/26
-#-------------------------------------------------------------------------------
+"""
+Name:         interaction
+Description:
+Author:       路子野
+Date:         2020/5/26
+"""
 
 import torch
 from .activation import activation_layer
@@ -19,7 +19,6 @@ class FM(torch.nn.Module):
       References
         - [Factorization Machines](https://www.csie.ntu.edu.tw/~b97053/paper/Rendle2010FM.pdf)
     """
-
     def __init__(self):
         super().__init__()
 
@@ -34,3 +33,9 @@ class FM(torch.nn.Module):
         cross_term = square_of_sum - sum_of_square
         cross_term = 0.5*torch.sum(cross_term,dim=2,keepdim=False)
         return cross_term
+
+
+class Cross(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
