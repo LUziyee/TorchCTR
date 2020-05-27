@@ -34,6 +34,7 @@ class DenseFeat():
         :param name: String dense feature nanme
         """
         self.name = name
+        self.dim = 1
 
 
 def creatEmbeddingMatrix(feat_columns,init_std=0.001):
@@ -43,11 +44,10 @@ def creatEmbeddingMatrix(feat_columns,init_std=0.001):
     :param init_std: float
     :return:
     """
-    embedding_dict = torch.nn.ModuleList()
+    embedding_dict = torch.nn.ModuleDict()
     for feat in feat_columns:
         if isinstance(feat,SparseFeat):
-            embedding_dict.append(torch.nn.Embedding(feat.vocabulary_size,feat.embedding_dim))
-
+            embedding_dict[feat.name] = torch.nn.Embedding(feat.vocabulary_size,feat.embedding_dim)
 
     for matrix in embedding_dict.values():
         torch.nn.init.normal_(matrix.weight,mean=0,std=init_std)

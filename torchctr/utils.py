@@ -9,7 +9,7 @@
 import torch
 import numpy as np
 import pandas as pd
-from torch.utils.data import Dataset,DataLoader
+from torch.utils.data import Dataset
 
 class TorchCtrData(Dataset):
     def __init__(self,x,y):
