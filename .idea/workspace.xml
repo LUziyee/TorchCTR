@@ -3,8 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="bd713672-29d0-49cd-af37-1440ffe676c7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/torchctr/test/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/torchctr/test/deepfm_criteo.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/deepfm_criteo.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/deepfm_criteo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/torchctr/inputs.py" beforeDir="false" afterPath="$PROJECT_DIR$/torchctr/inputs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/torchctr/layers/activation.py" beforeDir="false" afterPath="$PROJECT_DIR$/torchctr/layers/activation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/torchctr/layers/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/torchctr/layers/base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/torchctr/layers/interaction.py" beforeDir="false" afterPath="$PROJECT_DIR$/torchctr/layers/interaction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/torchctr/models/basemodel.py" beforeDir="false" afterPath="$PROJECT_DIR$/torchctr/models/basemodel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/torchctr/models/deepfm.py" beforeDir="false" afterPath="$PROJECT_DIR$/torchctr/models/deepfm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/torchctr/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/torchctr/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,32 +55,10 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../参考/DeepCTR-Torch" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
-  <component name="RunManager" selected="Python.deepfm_criteo (1)">
-    <configuration name="activation" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="TorchCTR" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/torchctr/layers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/torchctr/layers/activation.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Python.dcn_criteo">
     <configuration name="basemodel" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="TorchCTR" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -89,6 +73,28 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/torchctr/models/basemodel.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="dcn_criteo" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="TorchCTR" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/example" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/example/dcn_criteo.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -141,12 +147,35 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="interaction" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="TorchCTR" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/torchctr/layers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/torchctr/layers/interaction.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.dcn_criteo" />
         <item itemvalue="Python.deepfm_criteo (1)" />
+        <item itemvalue="Python.interaction" />
         <item itemvalue="Python.deepfm_criteo" />
         <item itemvalue="Python.basemodel" />
-        <item itemvalue="Python.activation" />
       </list>
     </recent_temporary>
   </component>
@@ -165,6 +194,8 @@
       <workItem from="1590566913552" duration="719000" />
       <workItem from="1590567821513" duration="10983000" />
       <workItem from="1590604480847" duration="45000" />
+      <workItem from="1590605164203" duration="1910000" />
+      <workItem from="1590654274777" duration="5120000" />
     </task>
     <servers />
   </component>
@@ -185,26 +216,30 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
-    <state width="1873" height="208" key="GridCell.Tab.0.bottom" timestamp="1590604525374">
+    <state x="2660" y="274" key="FileChooserDialogImpl" timestamp="1590654409034">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2660" y="274" key="FileChooserDialogImpl/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590654409034" />
+    <state width="1873" height="364" key="GridCell.Tab.0.bottom" timestamp="1590659609899">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state width="1867" height="69" key="GridCell.Tab.0.bottom/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1590604415187" />
-    <state width="1873" height="208" key="GridCell.Tab.0.bottom/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590604525374" />
-    <state width="1873" height="208" key="GridCell.Tab.0.center" timestamp="1590604525374">
+    <state width="1873" height="364" key="GridCell.Tab.0.bottom/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590659609899" />
+    <state width="1873" height="364" key="GridCell.Tab.0.center" timestamp="1590659609899">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state width="1867" height="69" key="GridCell.Tab.0.center/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1590604415187" />
-    <state width="1873" height="208" key="GridCell.Tab.0.center/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590604525374" />
-    <state width="1873" height="208" key="GridCell.Tab.0.left" timestamp="1590604525374">
+    <state width="1873" height="364" key="GridCell.Tab.0.center/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590659609899" />
+    <state width="1873" height="364" key="GridCell.Tab.0.left" timestamp="1590659609899">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state width="1867" height="69" key="GridCell.Tab.0.left/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1590604415187" />
-    <state width="1873" height="208" key="GridCell.Tab.0.left/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590604525374" />
-    <state width="1873" height="208" key="GridCell.Tab.0.right" timestamp="1590604525374">
+    <state width="1873" height="364" key="GridCell.Tab.0.left/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590659609899" />
+    <state width="1873" height="364" key="GridCell.Tab.0.right" timestamp="1590659609899">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state width="1867" height="69" key="GridCell.Tab.0.right/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1590604415187" />
-    <state width="1873" height="208" key="GridCell.Tab.0.right/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590604525374" />
+    <state width="1873" height="364" key="GridCell.Tab.0.right/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590659609899" />
     <state width="1867" height="69" key="GridCell.Tab.1.bottom" timestamp="1590604415187">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -229,16 +264,18 @@
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2455" y="164" key="SettingsEditor/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590582866917" />
-    <state x="2543" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1590602493496">
+    <state x="2543" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1590659284358">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="415" y="147" width="672" height="444" key="search.everywhere.popup/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1590589888401" />
-    <state x="2543" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590602493496" />
+    <state x="2543" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590659284358" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/TorchCTR$dcn_criteo.coverage" NAME="dcn_criteo Coverage Results" MODIFIED="1590659609899" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
     <SUITE FILE_PATH="coverage/TorchCTR$basemodel.coverage" NAME="basemodel Coverage Results" MODIFIED="1590590540941" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/torchctr/models" />
     <SUITE FILE_PATH="coverage/TorchCTR$deepfm_criteo.coverage" NAME="deepfm_criteo Coverage Results" MODIFIED="1590603378434" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/torchctr/test" />
     <SUITE FILE_PATH="coverage/TorchCTR$activation.coverage" NAME="activation Coverage Results" MODIFIED="1590506019700" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/torchctr/layers" />
-    <SUITE FILE_PATH="coverage/TorchCTR$deepfm_criteo__1_.coverage" NAME="deepfm_criteo (1) Coverage Results" MODIFIED="1590604502287" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
+    <SUITE FILE_PATH="coverage/TorchCTR$interaction.coverage" NAME="interaction Coverage Results" MODIFIED="1590657400058" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/torchctr/layers" />
+    <SUITE FILE_PATH="coverage/TorchCTR$deepfm_criteo__1_.coverage" NAME="deepfm_criteo (1) Coverage Results" MODIFIED="1590659601687" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
   </component>
 </project>

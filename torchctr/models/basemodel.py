@@ -35,9 +35,14 @@ class BaseModel(torch.nn.Module):
         设计思路:
             1.模型有多个组件,比如deepfm就包含fm和deep两个部分,有些模型可能有三个甚至四个组件，不同组件输入的特征可能是不同的，因此使用module_columns
             参数来传入每个组件所需要的特征，因此是一个2D list,里面每个list存储的是自定义的feat对象。
+            
             2.用户传入的module_columns可能是乱序的,因此使用self.sortColumns()来排序特征，使得每个组件的特征排列都是类别特征在前
+            
             3.self.sparse_feats用来记录unique feat objects,用来生成embedding_dict，这里的设定是考虑不同组件如果使用同一个特征的话是共享embedding matrix
             的。如果不想共享embedding,那么需要用户在使用时对特征做一下命名区分，比如userid,改成userid_module1,user_id_module2
+            
+            4.只有顶层模型的参数才设默认值，BaseModel和其他组件的参数都不设默认值，都需要靠顶层模型来传递参数，这样才不会混乱，当然，BaseModel的fit函数等需要
+            设置默认值，因为这些是用户直接只用的api，所以需要默认值。
         """
 
         self.sparse_feats = set()  # 记录所有的类别特征
@@ -161,4 +166,14 @@ class BaseModel(torch.nn.Module):
             return f1_score(y_hat,y)
         else:
             raise NotImplementedError
+
+    def _getInputDim(self,i):
+        module = self.module_columns[i]
+        input_dim = 0
+        for feat in module:
+            if isinstance(feat,SparseFeat):
+                input_dim += feat.embedding_dim
+            else:
+                input_dim += feat.dim
+        return input_dim
 

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-#
 """
-Name:         deepfm_criteo
+Name:         dcn_criteo
 Author:       路子野
-Date:         2020/5/27
+Date:         2020/5/28
 """
 
 import torch
@@ -13,7 +13,7 @@ import pickle
 import warnings
 warnings.filterwarnings("ignore")
 from torchctr.inputs import SparseFeat,DenseFeat
-from torchctr.models.deepfm import DeepFM
+from torchctr.models.dcn import DCN
 from sklearn.preprocessing import LabelEncoder,MinMaxScaler
 
 if __name__ == "__main__":
@@ -44,11 +44,11 @@ if __name__ == "__main__":
     denseFeats = [DenseFeat(name=name) for name in dense_feat_name]
 
     # 3.create parameters which need by model
-    module_columns_dict = {"fm":sparseFeats,
+    module_columns_dict = {"cross":sparseFeats+denseFeats,
                            "deep":sparseFeats+denseFeats}
     hidden_units = [256,128,64]
 
-    model = DeepFM(module_columns_dict=module_columns_dict,
+    model = DCN(module_columns_dict=module_columns_dict,
                    hidden_units=hidden_units,
                    )
 

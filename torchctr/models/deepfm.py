@@ -12,12 +12,12 @@ from torchctr.layers.interaction import FM
 
 
 class DeepFM(BaseModel):
-    def __init__(self, module_columns_dict, hidden_unit=[256,128], task="binary",
-                 init_std=0.0001, learning_rate=0.001,dropout_rate=0,):
+    def __init__(self, module_columns_dict, hidden_units=[256,128], task="binary",
+                 init_std=0.0001, learning_rate=0.001,dropout_rate=0,activation="relu"):
         """
 
         :param module_columns_dict: dict, {feat_name:[sparsefeat1,sparsefeat2,densefeat1,...]}
-        :param hidden_unit:list, default=[256,128,64]
+        :param hidden_units:list, default=[256,128,64]
         :param task: string,
         :param init_std: float, used to initialize layer weight and embedding weight
         :param learning_rate: float,
@@ -28,26 +28,35 @@ class DeepFM(BaseModel):
             self.module_columns.append(module_columns_dict["fm"])
             self.module_columns.append(module_columns_dict['deep'])
         except:
-            raise ValueError("this is not include fm module's feature")
+            raise ValueError("the module's name is wrong")
 
         super().__init__(module_columns=self.module_columns,
                          init_std=init_std,
                          task=task,
                          learning_rate=learning_rate)
 
-        if not hidden_unit:
+        if not hidden_units:
             raise ValueError("hidden_unit can't be empty")
 
-        deep_input_dim = self._getInputDim()
+        deep_input_dim = self._getInputDim(1)
 
-        self.dnn = DNN(input_dim=deep_input_dim,hidden_units=hidden_unit,dropout_rate=dropout_rate,init_std=init_std)
-        self.outer = torch.nn.Linear(hidden_unit[-1],1)
+        self.dnn = DNN(input_dim=deep_input_dim,
+                       hidden_units=hidden_units,
+                       dropout_rate=dropout_rate,
+                       init_std=init_std,
+                       activation=activation)
+        self.outer = torch.nn.Linear(hidden_units[-1],1)
 
         self.fm = FM()
 
         self.sigmoid = torch.nn.Sigmoid()
 
     def forward(self,x):
+        """
+
+        :param x: tensor, with shape (batch,filed*module)
+        :return:
+        """
         fm_x = x[:,:len(self.module_columns[0])]
         deep_x = x[:,len(self.module_columns[0]):]
         fm_embedding_list = []  #final (filed,batch,1,embedding_dim)
@@ -70,12 +79,4 @@ class DeepFM(BaseModel):
         return self.sigmoid(fm+deep)
 
 
-    def _getInputDim(self):
-        deep_module = self.module_columns[1]
-        input_dim = 0
-        for feat in deep_module:
-            if isinstance(feat,SparseFeat):
-                input_dim += feat.embedding_dim
-            else:
-                input_dim += feat.dim
-        return input_dim
+

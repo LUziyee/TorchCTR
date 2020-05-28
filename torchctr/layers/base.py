@@ -6,6 +6,7 @@ Date:         2020/5/26
 """
 
 import torch
+import torch.nn as nn
 from torchctr.layers.activation import activation_layer
 
 class DNN(torch.nn.Module):
@@ -20,7 +21,7 @@ class DNN(torch.nn.Module):
         For example, for a 2D input with shape ``(batch_size,input_dim)``, the output would have shape ``(batch_size,hidden_size[-1])
     '''
 
-    def __init__(self,input_dim,hidden_units,activation='relu',dropout_rate=0.5,init_std=0.001):
+    def __init__(self,input_dim,hidden_units,activation,dropout_rate,init_std):
         """
         initialize dnn layer
         :param input_dim: Integer input feature dimension.

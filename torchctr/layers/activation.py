@@ -6,6 +6,7 @@ Date:         2020/5/26
 """
 
 import torch
+import torch.nn as nn
 
 class NonAct(torch.nn.Module):
     def __init__(self):
