@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-#
 """
-Name:         deepfm_criteo
+Name:         dcn_titanic
 Author:       路子野
-Date:         2020/5/27
+Date:         2020/5/29
 """
 
 import torch
@@ -13,14 +13,14 @@ import pickle
 import warnings
 warnings.filterwarnings("ignore")
 from torchctr.inputs import SparseFeat,DenseFeat
-from torchctr.models.deepfm import DeepFM
+from torchctr.models.dcn import DCN
 from sklearn.preprocessing import LabelEncoder,MinMaxScaler
 
 if __name__ == "__main__":
-    df = pd.read_csv("D:\MyPrograme\Python\TorchRec\参考\DeepCTR-Torch\examples\criteo_sample.txt")
-    label = ["label"]
-    sparse_feat_name = ["C"+str(i) for i in range(1,27)]
-    dense_feat_name = ["I"+str(i) for i in range(1,14)]
+    df = pd.read_csv(r"E:\DataSets\titanic\train.csv")
+    target = ["Survived"]
+    sparse_feat_name = ['Pclass','Sex','Cabin','Embarked']
+    dense_feat_name = ['Age','SibSp','Parch','Fare']
     """
         缺失值处理：
             1.类别特征用'-1'填充
@@ -37,25 +37,24 @@ if __name__ == "__main__":
     df[dense_feat_name] = mms.fit_transform(df[dense_feat_name])
 
     # 2.count #unique features for each sparse field,and record dense feature field name
-    target = ['label']
     sparseFeats = [SparseFeat(name=name
                               ,vocabulary_size=df[name].nunique()
                               ,embedding_dim=8) for name in sparse_feat_name]
     denseFeats = [DenseFeat(name=name) for name in dense_feat_name]
 
     # 3.create parameters which need by model
-    module_columns_dict = {"fm":sparseFeats,
+    module_columns_dict = {"cross":sparseFeats+denseFeats,
                            "deep":sparseFeats+denseFeats}
-    hidden_units = [256,128,64]
+    hidden_units = [256,128]
 
-    model = DeepFM(module_columns_dict=module_columns_dict,
+    model = DCN(module_columns_dict=module_columns_dict,
                    hidden_units=hidden_units,
                    )
 
     # 4.split train test dataset
     x = df[sparse_feat_name+dense_feat_name]
     y = df[target]
-    trainx,testx,trainy,testy = train_test_split(x,y,test_size=0.2)
+    trainx,testx,trainy,testy = train_test_split(x,y,test_size=0.2,random_state=2020,shuffle=True)
     trainx_dict,testx_dict = {},{}
     for name in sparse_feat_name+dense_feat_name:
         trainx_dict[name] = trainx[name]
@@ -63,4 +62,4 @@ if __name__ == "__main__":
 
     # 5.compile and train model
     model.compile(optimizer="adam",loss="binary_crossentropy",metrics=["auc"])
-    model.fit(trainx_dict,trainy,batch_size=32)
+    model.fit(trainx_dict,trainy)

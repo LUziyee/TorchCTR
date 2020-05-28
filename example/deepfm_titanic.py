@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-#
 """
-Name:         deepfm_criteo
+Name:         deepfm_titanic
 Author:       路子野
-Date:         2020/5/27
+Date:         2020/5/29
 """
 
 import torch
@@ -17,10 +17,10 @@ from torchctr.models.deepfm import DeepFM
 from sklearn.preprocessing import LabelEncoder,MinMaxScaler
 
 if __name__ == "__main__":
-    df = pd.read_csv("D:\MyPrograme\Python\TorchRec\参考\DeepCTR-Torch\examples\criteo_sample.txt")
-    label = ["label"]
-    sparse_feat_name = ["C"+str(i) for i in range(1,27)]
-    dense_feat_name = ["I"+str(i) for i in range(1,14)]
+    df = pd.read_csv(r"E:\DataSets\titanic\train.csv")
+    target = ["Survived"] ##注意，这里有个隐藏bug，以后再fix
+    sparse_feat_name = ['Pclass','Sex','Cabin','Embarked']
+    dense_feat_name = ['Age','SibSp','Parch','Fare']
     """
         缺失值处理：
             1.类别特征用'-1'填充
@@ -37,7 +37,6 @@ if __name__ == "__main__":
     df[dense_feat_name] = mms.fit_transform(df[dense_feat_name])
 
     # 2.count #unique features for each sparse field,and record dense feature field name
-    target = ['label']
     sparseFeats = [SparseFeat(name=name
                               ,vocabulary_size=df[name].nunique()
                               ,embedding_dim=8) for name in sparse_feat_name]
@@ -46,7 +45,7 @@ if __name__ == "__main__":
     # 3.create parameters which need by model
     module_columns_dict = {"fm":sparseFeats,
                            "deep":sparseFeats+denseFeats}
-    hidden_units = [256,128,64]
+    hidden_units = [256,128]
 
     model = DeepFM(module_columns_dict=module_columns_dict,
                    hidden_units=hidden_units,
