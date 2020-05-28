@@ -62,7 +62,7 @@ class DeepFM(BaseModel):
         fm_embedding_list = []  #final (filed,batch,1,embedding_dim)
         for index,feat in enumerate(self.module_columns[0]):
             feat_id = fm_x[:,[index]].long()  #(batch,1)
-            fm_embedding_list.append(self.embedding_dict[feat.name](feat_id))
+            fm_embedding_list.append(self.embedding_dict[feat.name](feat_id))  #[(batch,1,embedding_dim)]
         fm_input = torch.cat(fm_embedding_list,dim=1) #(batch,filed,embedding_dim)
         fm = self.fm(fm_input)
         deep_embedding_list = []

@@ -17,7 +17,7 @@ warnings.filterwarnings("ignore")
 
 class DCN(BaseModel):
     """
-
+    Instantiates the Deep&Cross Network architecture.
     """
     def __init__(self,module_columns_dict,init_std=0.0001, learning_rate=0.001,
                  task="binary",cross_layer=3,hidden_units=[128,64],dropout_rate=0.5,

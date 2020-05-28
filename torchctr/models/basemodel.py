@@ -112,7 +112,10 @@ class BaseModel(torch.nn.Module):
         x = np.array(list_x) #（filed*module,data_len),每个组件需要的特征 x 组件个数
         y = np.array(y) #(data_len,1) 注意这里y的shape容易出bug，
         ctr_data = TorchCtrData(x, y)
-        dataloader = DataLoader(ctr_data, batch_size=self.batch_size, shuffle=shuffle, collate_fn=collate_fn,
+        dataloader = DataLoader(ctr_data,
+                                batch_size=self.batch_size,
+                                shuffle=shuffle,
+                                collate_fn=collate_fn,
                                 drop_last=False)
 
         model = self.train()
@@ -141,7 +144,7 @@ class BaseModel(torch.nn.Module):
                 print("{}:{:.5f}".format(metric,result),end=" ")
             print()
 
-    def predict(self):
+    def test(self):
         pass
 
     def __sortColumns(self, columns):
