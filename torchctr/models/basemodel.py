@@ -8,29 +8,23 @@ Date:         2020/5/26
 
 import torch
 from torch.utils.data import DataLoader
-from torchctr.layers.base import PredictionLayer
 from torchctr.inputs import creatEmbeddingMatrix, SparseFeat, DenseFeat
 from torchctr.utils import TorchCtrData, collate_fn
 import numpy as np
 from sklearn.metrics import roc_auc_score,f1_score
+import time
 
 
 class BaseModel(torch.nn.Module):
     """
-
-
+    The basemodel of all high-order model, which achieve the train and test function
     """
-
-    def __init__(self, module_columns, init_std, learning_rate, task):
+    def __init__(self, module_columns, init_std, task):
         """
-
-        :param module_columns:2D list include each module's feature object list, which include SparseFeat objects and DenseFeat objects
+        :param module_columns: 2D list, include each module's feature object list, which include SparseFeat objects and DenseFeat objects
         :param init_std: float, used to initialize layer weight and embedding weight
-        :param learning_rate: float,
         :param task: string,
         """
-        super().__init__()
-
         """
         设计思路:
             1.模型有多个组件,比如deepfm就包含fm和deep两个部分,有些模型可能有三个甚至四个组件，不同组件输入的特征可能是不同的，因此使用module_columns
@@ -44,34 +38,34 @@ class BaseModel(torch.nn.Module):
             4.只有顶层模型的参数才设默认值，BaseModel和其他组件的参数都不设默认值，都需要靠顶层模型来传递参数，这样才不会混乱，当然，BaseModel的fit函数等需要
             设置默认值，因为这些是用户直接只用的api，所以需要默认值。
         """
+        super().__init__()
 
         self.sparse_feats = set()  # 记录所有的类别特征
         self.module_columns = [self.__sortColumns(module) for module in module_columns]  # 排序,使得每个组件的特征排列都是类别特征在前
         self.sparse_feats = list(self.sparse_feats)  # 把去重后的类别特征转换成数组
 
-        self.learning_rate = learning_rate
         self.task = task
         self.embedding_dict = creatEmbeddingMatrix(self.sparse_feats, init_std)
 
-        self.out = PredictionLayer(self.task)
-
-    def compile(self, optimizer, loss, metrics=[]):
+    def compile(self, optimizer, loss, metrics=[],learning_rate=0.001,l2_reg=0.0001):
         """
-
+        compile model, instantiation a loss function object and optimizer object and metrics object
         :param optimizer: String, name of optimizer, now implement ["sgd","adam"]
         :param loss: String, name of objective function, now implement ["binary_crossentropy","multi_crossentropy"]
         :param metrics: List, include metrics name which will be evaluated by model during training and testing.
         :return: None
         """
+        self.metrics = metrics
+        self.learning_rate = learning_rate
+        self.l2_reg = l2_reg
         self.optim = self.__getOptim(optimizer)
         self.loss = self.__getLoss(loss)
-        self.metrics = metrics
 
     def __getOptim(self, optimizer):
         if optimizer.lower() == "sgd":
-            optim = torch.optim.SGD(self.parameters(), lr=self.learning_rate)
+            optim = torch.optim.SGD(self.parameters(), lr=self.learning_rate, weight_decay=self.l2_reg)
         elif optimizer.lower() == "adam":
-            optim = torch.optim.Adam(self.parameters())
+            optim = torch.optim.Adam(self.parameters(),lr=self.learning_rate,weight_decay=self.l2_reg)
         else:
             raise NotImplementedError
         return optim
@@ -87,16 +81,15 @@ class BaseModel(torch.nn.Module):
 
     def fit(self, x, y, batch_size=32, epochs=10, verbose=1, shuffle=True):
         """
-        这里只是给出统一形式的训练过程，至于数据的各块数据的数据，在各个高阶Model的forward()里面完成
-        :param x: dict {feat_name:list}
+        这里只是给出统一形式的训练过程，至于数据的各块数据的处理，特别是类别特征的embedding，在各个高阶Model的forward()里面完成
+        :param x: dict {feat_name:ndarray}
         :param y: list with shape ``(data_len,1)``
         :param batch_size: Integer
         :param epochs: Integer
-        :param verbose: Integer
+        :param verbose: Integer, control print interval
         :param shuffle: bool
         :return:
         """
-
         """
         思路：
             1.fit()中x传入的字典数据是不重复的，而module_columns里面的特征字段是有重复的
@@ -110,7 +103,7 @@ class BaseModel(torch.nn.Module):
             for feat in module:
                 list_x.append(x[feat.name].tolist())
         x = np.array(list_x) #（filed*module,data_len),每个组件需要的特征 x 组件个数
-        y = np.array(y) #(data_len,1) 注意这里y的shape容易出bug，
+        y = np.array(y).reshape(-1,1) #保证传入ctr_data的y的shape是(data_len,1)
         ctr_data = TorchCtrData(x, y)
         dataloader = DataLoader(ctr_data,
                                 batch_size=self.batch_size,
@@ -120,6 +113,7 @@ class BaseModel(torch.nn.Module):
 
         model = self.train()
         for epoch in range(self.epochs):
+            st_time = time.time()
             epoch_loss = 0
             batchs = 0
             y_hat = []
@@ -138,19 +132,34 @@ class BaseModel(torch.nn.Module):
             metric_result = []
             for metric in self.metrics:
                 metric_result.append(self.__metric(metric,y_hat,y))
-            print("epoch {}/{}".format(epoch+1,self.epochs))
-            print("trian loss:{:.5f}".format(epoch_mean_loss),end=" ")
-            for metric,result in zip(self.metrics,metric_result):
-                print("{}:{:.5f}".format(metric,result),end=" ")
-            print()
+            if verbose==0:
+                pass
+            elif epoch%verbose==0:
+                end_time = time.time()
+                print("Epoch {}/{}".format(epoch+1,self.epochs))
+                print("{}s -".format(int(end_time-st_time)),end=" ")
+                print("trian loss: {:.5f} -".format(epoch_mean_loss),end=" ")
+                for metric,result in zip(self.metrics,metric_result):
+                    print("{}: {:.5f} -".format(metric,result),end=" ")
+                print()
+            else:
+                pass
 
-    def test(self, x, y, batch_size=256, verbose=1, shuffle=True):
+    def test(self, x, y, batch_size=256, shuffle=True):
+        """
+        这里实现了统一的test功能
+        :param x:
+        :param y:
+        :param batch_size:
+        :param shuffle:
+        :return:
+        """
         list_x = []
         for module in self.module_columns:
             for feat in module:
                 list_x.append(x[feat.name].tolist())
         x = np.array(list_x)  # （filed*module,data_len),每个组件需要的特征 x 组件个数
-        y = np.array(y)  # (data_len,1) 注意这里y的shape容易出bug，
+        y = np.array(y).reshape(-1,1)  # (data_len,1) 注意这里y的shape容易出bug，
         ctr_data = TorchCtrData(x, y)
         dataloader = DataLoader(ctr_data,
                                 batch_size=batch_size,
@@ -174,6 +183,7 @@ class BaseModel(torch.nn.Module):
         metric_result = []
         for metric in self.metrics:
             metric_result.append(self.__metric(metric, y_hat, y))
+        print()
         print("==========Test Stage========")
         print("test loss:{:.5f}".format(epoch_mean_loss), end=" ")
         for metric, result in zip(self.metrics, metric_result):
@@ -193,7 +203,6 @@ class BaseModel(torch.nn.Module):
 
     def __metric(self,metric,y_hat,y):
         """
-
         :param metric: str
         :return:
         """
@@ -213,4 +222,24 @@ class BaseModel(torch.nn.Module):
             else:
                 input_dim += feat.dim
         return input_dim
+
+    def _get3Dtensor(self,x,i):
+        embedding_list = []
+        for index,feat in enumerate(self.module_columns[i]):
+            feat_id = x[:,[index]].long()  #(batch,1)
+            embedding_list.append(self.embedding_dict[feat.name](feat_id))  #[(batch,1,embedding_dim)]
+        fm_input = torch.cat(embedding_list,dim=1) #(batch,filed,embedding_dim)
+        return fm_input
+
+    def _get2Dtensor(self,x,i):
+        embedding_list = []
+        dense_list = []
+        for index, feat in enumerate(self.module_columns[i]):
+            if isinstance(feat, SparseFeat):
+                feat_id = x[:, [index]].long()
+                embedding_list.append(self.embedding_dict[feat.name](feat_id).squeeze(dim=1))
+            else:
+                dense_list.append(x[:, [index]].float())
+        deep_input = torch.cat(embedding_list + dense_list, dim=1)  # (batch,filed*embedding_dim+dense)
+        return deep_input
 

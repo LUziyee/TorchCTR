@@ -36,7 +36,7 @@ class FM(torch.nn.Module):
         return cross_term
 
 
-class Cross(torch.nn.Module):
+class CrossNet(torch.nn.Module):
     """
     The Cross Network part of Deep&Cross Network model, which leans both low and high degree cross feature.
 
@@ -109,3 +109,28 @@ class BiInteractionPooling(torch.nn.Module):
         pooling = 0.5*(square_of_sum-sum_of_square)
         return pooling
 
+
+class GMF(torch.nn.Module):
+    """
+    GMF layer is used in NeuralCF, do element-wise product to imitate matrix factorization
+
+    Input shape:
+        - 3D tensor with shape (batch,2,embedding_dim) user vector and item vector
+
+    Output shape:
+        - 2D tensor with shape (batch,embedding_dim)
+
+    Reference:
+        - He, Xiangnan, et al. “Neural Collaborative Filtering.” WWW ’17 Proceedings of the 26th International Conference on World Wide Web, 2017, pp. 173–182.
+    """
+    def __init__(self):
+        super().__init__()
+
+    def forward(self,x):
+        """
+        :param x: 3D tensor with shape (batch,2,embedding_dim) user vector and item vector
+        :return: 2D tensor with shape (batch,embedding_dim)
+        """
+        user_embedding = x[:,0,:]  #(batch,embedding_dim)
+        item_embedding = x[:,1,:]  #(batch,embedding_dim)
+        return user_embedding*item_embedding

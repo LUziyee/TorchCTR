@@ -13,14 +13,13 @@ from torchctr.layers.interaction import FM
 
 class DeepFM(BaseModel):
     def __init__(self, module_columns_dict, hidden_units=[256,128], task="binary",
-                 init_std=0.0001, learning_rate=0.001,dropout_rate=0,activation="relu"):
+                 init_std=0.0001,dropout_rate=0,activation="relu"):
         """
 
         :param module_columns_dict: dict, {feat_name:[sparsefeat1,sparsefeat2,densefeat1,...]}
         :param hidden_units:list, default=[256,128,64]
         :param task: string,
         :param init_std: float, used to initialize layer weight and embedding weight
-        :param learning_rate: float,
         """
         self.module_columns = []  #存储所有组件的 特征对象 ，tips:特征对象是有重复的
         try:
@@ -32,8 +31,7 @@ class DeepFM(BaseModel):
 
         super().__init__(module_columns=self.module_columns,
                          init_std=init_std,
-                         task=task,
-                         learning_rate=learning_rate)
+                         task=task)
 
         if not hidden_units:
             raise ValueError("hidden_unit can't be empty")
@@ -59,21 +57,9 @@ class DeepFM(BaseModel):
         """
         fm_x = x[:,:len(self.module_columns[0])]
         deep_x = x[:,len(self.module_columns[0]):]
-        fm_embedding_list = []  #final (filed,batch,1,embedding_dim)
-        for index,feat in enumerate(self.module_columns[0]):
-            feat_id = fm_x[:,[index]].long()  #(batch,1)
-            fm_embedding_list.append(self.embedding_dict[feat.name](feat_id))  #[(batch,1,embedding_dim)]
-        fm_input = torch.cat(fm_embedding_list,dim=1) #(batch,filed,embedding_dim)
+        fm_input = self._get3Dtensor(fm_x,0)  #(batch,filed,embedding_dim)
         fm = self.fm(fm_input)
-        deep_embedding_list = []
-        deep_dense_list = []
-        for index,feat in enumerate(self.module_columns[1]):
-            if isinstance(feat,SparseFeat):
-                feat_id = deep_x[:,[index]].long()
-                deep_embedding_list.append(self.embedding_dict[feat.name](feat_id).squeeze(dim=1))
-            else:
-                deep_dense_list.append(deep_x[:,[index]].float())
-        deep_input = torch.cat(deep_embedding_list+deep_dense_list,dim=1)  #(batch,filed*embedding_dim+dense)
+        deep_input = self._get2Dtensor(deep_x,1) #(batch,filed*embedding_dim+dense)
         deep = self.outer(self.dnn(deep_input))
 
         return self.sigmoid(fm+deep)

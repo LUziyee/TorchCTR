@@ -17,7 +17,7 @@ class NFM(BaseModel):
     """
     Instantiates the NFM Network architecture.
     """
-    def __init__(self,module_columns_dict,init_std=0.0001, learning_rate=0.001,
+    def __init__(self,module_columns_dict,init_std=0.0001,
                  task="binary",hidden_units=[128,64],dropout_rate=0.5,
                  activation="relu",init_method="normal"):
 
@@ -29,7 +29,6 @@ class NFM(BaseModel):
 
         super().__init__(module_columns=module_columns,
                          init_std=init_std,
-                         learning_rate=learning_rate,
                          task=task)
         self.biinteractionpooling = BiInteractionPooling()
         input_dim = module_columns[0][0].embedding_dim
