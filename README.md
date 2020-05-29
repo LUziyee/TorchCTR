@@ -4,12 +4,13 @@ TorchCTR is a demo package of deep-learning based CTR models. You can use any hi
 
 ## Models List
 
-| **Model**                      | **Paper**                                                    |
-| ------------------------------ | ------------------------------------------------------------ |
-| DeepFM                         | [IJCAI 2017](http://www.ijcai.org/proceedings/2017/0239.pdf) |
-| Deep & Cross Network           | [ADKDD 2017](https://arxiv.org/abs/1708.05123)               |
-| Neural Factorization Machine   | [SIGIR 2017](https://arxiv.org/pdf/1708.05027.pdf)           |
-| Neural Collaborative Filtering | [WWW 2017](http://www.comp.nus.edu.sg/~xiangnan/papers/ncf.pdf) |
+| **Model**                          | **Paper**                                                    |
+| ---------------------------------- | ------------------------------------------------------------ |
+| DeepFM                             | [IJCAI 2017](http://www.ijcai.org/proceedings/2017/0239.pdf) |
+| Deep & Cross Network               | [ADKDD 2017](https://arxiv.org/abs/1708.05123)               |
+| Neural Factorization Machine       | [SIGIR 2017](https://arxiv.org/pdf/1708.05027.pdf)           |
+| Neural Collaborative Filtering     | [WWW 2017](http://www.comp.nus.edu.sg/~xiangnan/papers/ncf.pdf) |
+| Attentional Factorization Machines | [IJCAI 2017](https://arxiv.org/abs/1708.04617)               |
 
 ## 设计思路
 
