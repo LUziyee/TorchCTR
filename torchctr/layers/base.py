@@ -107,6 +107,49 @@ class PredictionLayer(torch.nn.Module):
         return self.act_layer(inputs)
 
 
+class LocalActivationUnit(torch.nn.Module):
+    """The LocalActivationUnit used in DIN with which the representation of
+        user interests varies adaptively given different candidate items.
+
+    Input shape
+        - A list of two 3D tensor with shape:  (batch_size, 1, embedding_dim) and (batch_size, T, embedding_size)
+
+    Output shape
+        - 3D tensor with shape: (batch_size, T, 1).
+
+    References
+        - [Zhou G, Zhu X, Song C, et al. Deep interest network for click-through rate prediction[C]//Proceedings of the 24th ACM SIGKDD International Conference on Knowledge Discovery & Data Mining. ACM, 2018: 1059-1068.](https://arxiv.org/pdf/1706.06978.pdf)
+    """
+    def __init__(self,embedding_dim,hidden_units,activation,dropout_rate,init_std):
+        super().__init__()
+
+        self.dnn = DNN(input_dim=4*embedding_dim,
+                       hidden_units=hidden_units,
+                       activation=activation,
+                       dropout_rate=dropout_rate,
+                       init_std=init_std)
+
+        self.score = torch.nn.Linear(hidden_units[-1],1)
+        #?这应该是有softmax来归一化注意力权重
+        self.softmax = torch.nn.Softmax(dim=-1)
+
+    def forward(self, query, user_behavior):
+        """
+        Attention layer
+        :param query: 3D tensor with shape (batch,1,embedding_dim), denotes the ad which will be exposure
+        :param user_behavior: 3D tensor with shape (batch,T,embedding_dim), denotes ads which user had clicked
+        :return: 3D tensor with shape  (batch,T,1）， denotes the attention weight of each clicked ad
+        """
+        user_behavior_len = user_behavior.shape[1]
+        queries = query.expand(-1,user_behavior_len,-1)
+
+        attention_input = torch.cat([queries,user_behavior,queries-user_behavior,queries*user_behavior],dim=-1)
+        attention_output = self.dnn(attention_input)
+        attention_weight = self.softmax(self.score(attention_output).squeeze(dim=-1)).unsqueeze(dim=2)
+
+        return attention_weight
+
+
 
 
 

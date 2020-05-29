@@ -9,6 +9,8 @@ Date:         2020/5/26
 import torch
 import torch.nn as nn
 from torchctr.layers.activation import activation_layer
+from torchctr.layers.base import DNN
+
 
 class FM(torch.nn.Module):
     """Factorization Machine models pairwise (order-2) feature interactions
@@ -102,7 +104,7 @@ class BiInteractionPooling(torch.nn.Module):
         """
 
         :param x: 3D tensor with shape (batch,filed,embedding_dim)
-        :return:
+        :return: 2D tensor with shape: (batch_size,embedding_size).
         """
         square_of_sum = torch.pow(torch.sum(x,dim=1),2)
         sum_of_square = torch.sum(torch.pow(x,2),dim=1)
@@ -134,3 +136,43 @@ class GMF(torch.nn.Module):
         user_embedding = x[:,0,:]  #(batch,embedding_dim)
         item_embedding = x[:,1,:]  #(batch,embedding_dim)
         return user_embedding*item_embedding
+
+
+class AttentionBasedPooling(torch.nn.Module):
+    """Attention-based Pooling Layer used in Attention FM, used to determine
+    the importance of interactions between different feature
+
+      Input shape
+        - A 3D tensor with shape:``(batch_size,field_size,embedding_size)``.
+
+      Output shape
+        - 2D tensor with shape: ``(batch_size,embedding_size)``.
+
+      References
+        - Xiao, Jun, et al. “Attentional Factorization Machines: Learning the Weight of Feature Interactions via Attention Networks.” Twenty-Sixth International Joint Conference on Artificial Intelligence, 2017, pp. 3119–3125.
+    """
+    def __init__(self,embedding_dim,hidden_units,activation,dropout_rate,init_std):
+        super().__init__()
+
+        self.dnn = DNN(input_dim=embedding_dim,
+                       hidden_units=hidden_units,
+                       activation=activation,
+                       dropout_rate=dropout_rate,
+                       init_std=init_std)
+
+        self.socre = torch.nn.Linear(hidden_units[-1],1)
+        self.softmax = torch.nn.Softmax(dim=-1)
+
+    def forward(self,x):
+        """
+
+        :param x:
+        :return:
+        """
+        square_of_sum = torch.pow(torch.sum(x,dim=1,keepdim=True),2) #(batch,1,embedding_dim)
+        sum_of_square = torch.sum(torch.pow(x,2),dim=1,keepdim=True) #(batch,1,embedding_dim)
+        cross_tmp = square_of_sum-sum_of_square
+        attention_weight = self.softmax(self.socre(self.dnn(cross_tmp)))
+
+
+
