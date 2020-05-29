@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bd713672-29d0-49cd-af37-1440ffe676c7" name="Default Changelist" comment="add some annotation">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="bd713672-29d0-49cd-af37-1440ffe676c7" name="Default Changelist" comment="add some annotation" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -47,7 +45,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../参考/DeepCTR-Torch" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RunManager" selected="Python.deepfm_titanic">
@@ -192,6 +190,7 @@
       <workItem from="1590686508678" duration="1922000" />
       <workItem from="1590719221707" duration="412000" />
       <workItem from="1590719650213" duration="7308000" />
+      <workItem from="1590729664853" duration="151000" />
     </task>
     <task id="LOCAL-00001" summary="add some annotation">
       <created>1590726891872</created>
