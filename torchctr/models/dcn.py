@@ -23,7 +23,6 @@ class DCN(BaseModel):
                  task="binary",cross_layer=3,hidden_units=[128,64],dropout_rate=0.5,
                  activation="relu",init_method="normal"):
         """
-
         :param module_columns_dict:
         :param init_std:
         :param task:
@@ -63,8 +62,7 @@ class DCN(BaseModel):
 
     def forward(self,x):
         """
-
-        :param x: tensor, with shape (batch,filed*module)
+        :param x: 2D tensor, with shape (batch,filed*module)
         :return:
         """
         cross_x = x[:,:len(self.module_columns[0])]

@@ -214,6 +214,11 @@ class BaseModel(torch.nn.Module):
             raise NotImplementedError
 
     def _getInputDim(self,i):
+        """
+        计算某个组件的输入维度，最典型的应用就是计算dnn的input_dim
+        :param i: Integer, denote i-th module, as the index of module_columns
+        :return: Integer, input_dim
+        """
         module = self.module_columns[i]
         input_dim = 0
         for feat in module:
@@ -224,6 +229,12 @@ class BaseModel(torch.nn.Module):
         return input_dim
 
     def _get3Dtensor(self,x,i):
+        """
+        将类别特征的id在对应的embedding matrix中进行lookup,并进行合并，
+        :param x: 2D tensor with shape (batch,filed)
+        :param i: Integer, denote i-th module, as the index of module_columns
+        :return: 3D tensor with shape (batch,filed,embedding_dim)
+        """
         embedding_list = []
         for index,feat in enumerate(self.module_columns[i]):
             feat_id = x[:,[index]].long()  #(batch,1)
@@ -232,6 +243,12 @@ class BaseModel(torch.nn.Module):
         return fm_input
 
     def _get2Dtensor(self,x,i):
+        """
+        将类别特征的id在对应的embedding matrix中进行lookup,并进行concat,并将连续特征拼接在后面
+        :param x: 2D tensor with shape (batch,filed+dense)
+        :param i: Integer, denote i-th module, as the index of module_columns
+        :return: 2D tensor with shape (batch,filed*embedding_dim+dense)
+        """
         embedding_list = []
         dense_list = []
         for index, feat in enumerate(self.module_columns[i]):

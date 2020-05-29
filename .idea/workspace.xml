@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bd713672-29d0-49cd-af37-1440ffe676c7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/deepfm_titanic.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/deepfm_titanic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/torchctr/layers/interaction.py" beforeDir="false" afterPath="$PROJECT_DIR$/torchctr/layers/interaction.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/torchctr/models/basemodel.py" beforeDir="false" afterPath="$PROJECT_DIR$/torchctr/models/basemodel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/torchctr/models/dcn.py" beforeDir="false" afterPath="$PROJECT_DIR$/torchctr/models/dcn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/torchctr/models/deepfm.py" beforeDir="false" afterPath="$PROJECT_DIR$/torchctr/models/deepfm.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/torchctr/models/nfm.py" beforeDir="false" afterPath="$PROJECT_DIR$/torchctr/models/nfm.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -197,7 +191,7 @@
       <workItem from="1590664625651" duration="972000" />
       <workItem from="1590686508678" duration="1922000" />
       <workItem from="1590719221707" duration="412000" />
-      <workItem from="1590719650213" duration="6309000" />
+      <workItem from="1590719650213" duration="6939000" />
     </task>
     <servers />
   </component>
