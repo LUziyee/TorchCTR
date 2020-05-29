@@ -64,3 +64,4 @@ if __name__ == "__main__":
     # 5.compile and train model
     model.compile(optimizer="adam",loss="binary_crossentropy",metrics=["auc"])
     model.fit(trainx_dict,trainy,batch_size=32)
+    model.test(testx_dict,testy)

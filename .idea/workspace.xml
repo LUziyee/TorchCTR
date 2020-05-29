@@ -4,6 +4,8 @@
     <list default="true" id="bd713672-29d0-49cd-af37-1440ffe676c7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/deepfm_criteo.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/deepfm_criteo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/deepfm_titanic.py" beforeDir="false" afterPath="$PROJECT_DIR$/example/deepfm_titanic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/torchctr/models/basemodel.py" beforeDir="false" afterPath="$PROJECT_DIR$/torchctr/models/basemodel.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,8 +50,8 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../TFRec/FM" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../参考/DeepCTR-Torch" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RunManager" selected="Python.nfm_titanic">
     <configuration name="dcn_criteo" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -165,10 +167,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.nfm_titanic" />
-        <item itemvalue="Python.dcn_titanic" />
         <item itemvalue="Python.deepfm_titanic" />
-        <item itemvalue="Python.dcn_criteo" />
         <item itemvalue="Python.deepfm_criteo (1)" />
+        <item itemvalue="Python.dcn_titanic" />
+        <item itemvalue="Python.dcn_criteo" />
       </list>
     </recent_temporary>
   </component>
@@ -191,6 +193,8 @@
       <workItem from="1590654274777" duration="10040000" />
       <workItem from="1590664625651" duration="972000" />
       <workItem from="1590686508678" duration="1922000" />
+      <workItem from="1590719221707" duration="412000" />
+      <workItem from="1590719650213" duration="730000" />
     </task>
     <servers />
   </component>
@@ -211,30 +215,34 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
-    <state x="2660" y="274" key="FileChooserDialogImpl" timestamp="1590687623187">
+    <state x="2508" y="362" key="#com.intellij.tools.ToolEditorDialog" timestamp="1590719510665">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="2660" y="274" key="FileChooserDialogImpl/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590687623187" />
-    <state width="1873" height="326" key="GridCell.Tab.0.bottom" timestamp="1590688431274">
+    <state x="2508" y="362" key="#com.intellij.tools.ToolEditorDialog/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590719510665" />
+    <state x="2660" y="274" key="FileChooserDialogImpl" timestamp="1590720242047">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2660" y="274" key="FileChooserDialogImpl/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590720242047" />
+    <state width="1873" height="234" key="GridCell.Tab.0.bottom" timestamp="1590720447527">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state width="1867" height="69" key="GridCell.Tab.0.bottom/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1590604415187" />
-    <state width="1873" height="326" key="GridCell.Tab.0.bottom/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590688431274" />
-    <state width="1873" height="326" key="GridCell.Tab.0.center" timestamp="1590688431274">
+    <state width="1873" height="234" key="GridCell.Tab.0.bottom/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590720447527" />
+    <state width="1873" height="234" key="GridCell.Tab.0.center" timestamp="1590720447527">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state width="1867" height="69" key="GridCell.Tab.0.center/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1590604415187" />
-    <state width="1873" height="326" key="GridCell.Tab.0.center/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590688431274" />
-    <state width="1873" height="326" key="GridCell.Tab.0.left" timestamp="1590688431274">
+    <state width="1873" height="234" key="GridCell.Tab.0.center/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590720447527" />
+    <state width="1873" height="234" key="GridCell.Tab.0.left" timestamp="1590720447527">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state width="1867" height="69" key="GridCell.Tab.0.left/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1590604415187" />
-    <state width="1873" height="326" key="GridCell.Tab.0.left/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590688431274" />
-    <state width="1873" height="326" key="GridCell.Tab.0.right" timestamp="1590688431274">
+    <state width="1873" height="234" key="GridCell.Tab.0.left/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590720447527" />
+    <state width="1873" height="234" key="GridCell.Tab.0.right" timestamp="1590720447527">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state width="1867" height="69" key="GridCell.Tab.0.right/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1590604415187" />
-    <state width="1873" height="326" key="GridCell.Tab.0.right/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590688431274" />
+    <state width="1873" height="234" key="GridCell.Tab.0.right/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590720447527" />
     <state width="1873" height="326" key="GridCell.Tab.1.bottom" timestamp="1590688431274">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
@@ -255,13 +263,14 @@
     </state>
     <state width="1867" height="69" key="GridCell.Tab.1.right/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1590604415187" />
     <state width="1873" height="326" key="GridCell.Tab.1.right/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590688431274" />
-    <state x="2455" y="164" key="SettingsEditor" timestamp="1590582866917">
+    <state x="2286" y="176" key="SettingsEditor" timestamp="1590719637526">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="2455" y="164" key="SettingsEditor/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590582866917" />
-    <state x="0" y="0" width="1294" height="737" key="dock-window-1" timestamp="1590688210333">
+    <state x="2286" y="176" key="SettingsEditor/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590719637526" />
+    <state x="0" y="0" width="1294" height="737" key="dock-window-1" timestamp="1590719250468">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
+    <state x="0" y="0" width="1294" height="737" key="dock-window-1/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1590719250468" />
     <state x="0" y="0" width="1294" height="737" key="dock-window-1/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1590688210333" />
     <state x="2543" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1590663293345">
       <screen x="1920" y="0" width="1920" height="1040" />
@@ -275,10 +284,10 @@
     <SUITE FILE_PATH="coverage/TorchCTR$deepfm_criteo.coverage" NAME="deepfm_criteo Coverage Results" MODIFIED="1590603378434" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/torchctr/test" />
     <SUITE FILE_PATH="coverage/TorchCTR$dcn_titanic.coverage" NAME="dcn_titanic Coverage Results" MODIFIED="1590688259002" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
     <SUITE FILE_PATH="coverage/TorchCTR$activation.coverage" NAME="activation Coverage Results" MODIFIED="1590506019700" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/torchctr/layers" />
-    <SUITE FILE_PATH="coverage/TorchCTR$nfm_titanic.coverage" NAME="nfm_titanic Coverage Results" MODIFIED="1590688407552" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
+    <SUITE FILE_PATH="coverage/TorchCTR$nfm_titanic.coverage" NAME="nfm_titanic Coverage Results" MODIFIED="1590720447518" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
     <SUITE FILE_PATH="coverage/TorchCTR$interaction.coverage" NAME="interaction Coverage Results" MODIFIED="1590657400058" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/torchctr/layers" />
-    <SUITE FILE_PATH="coverage/TorchCTR$deepfm_titanic.coverage" NAME="deepfm_titanic Coverage Results" MODIFIED="1590688247075" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
-    <SUITE FILE_PATH="coverage/TorchCTR$deepfm_criteo__1_.coverage" NAME="deepfm_criteo (1) Coverage Results" MODIFIED="1590687202422" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
+    <SUITE FILE_PATH="coverage/TorchCTR$deepfm_titanic.coverage" NAME="deepfm_titanic Coverage Results" MODIFIED="1590720417003" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
+    <SUITE FILE_PATH="coverage/TorchCTR$deepfm_criteo__1_.coverage" NAME="deepfm_criteo (1) Coverage Results" MODIFIED="1590720220387" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
     <SUITE FILE_PATH="coverage/TorchCTR$nfm_criteo.coverage" NAME="nfm_criteo Coverage Results" MODIFIED="1590664321017" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/example" />
   </component>
 </project>

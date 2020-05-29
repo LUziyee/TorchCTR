@@ -144,8 +144,42 @@ class BaseModel(torch.nn.Module):
                 print("{}:{:.5f}".format(metric,result),end=" ")
             print()
 
-    def test(self):
-        pass
+    def test(self, x, y, batch_size=256, verbose=1, shuffle=True):
+        list_x = []
+        for module in self.module_columns:
+            for feat in module:
+                list_x.append(x[feat.name].tolist())
+        x = np.array(list_x)  # （filed*module,data_len),每个组件需要的特征 x 组件个数
+        y = np.array(y)  # (data_len,1) 注意这里y的shape容易出bug，
+        ctr_data = TorchCtrData(x, y)
+        dataloader = DataLoader(ctr_data,
+                                batch_size=batch_size,
+                                shuffle=shuffle,
+                                collate_fn=collate_fn,
+                                drop_last=False)
+
+        model = self.eval()
+        epoch_loss = 0
+        batchs = 0
+        y_hat = []
+        y = []
+        for tensor_x, tensor_y in dataloader:
+            output = model(tensor_x)
+            batch_loss = self.loss(output, tensor_y.float())
+            epoch_loss += batch_loss.item()
+            batchs += 1
+            y_hat.extend(output.detach().numpy())
+            y.extend(tensor_y.numpy())
+        epoch_mean_loss = epoch_loss / batchs
+        metric_result = []
+        for metric in self.metrics:
+            metric_result.append(self.__metric(metric, y_hat, y))
+        print("==========Test Stage========")
+        print("test loss:{:.5f}".format(epoch_mean_loss), end=" ")
+        for metric, result in zip(self.metrics, metric_result):
+            print("{}:{:.5f}".format(metric, result), end=" ")
+        print()
+
 
     def __sortColumns(self, columns):
         sparse, dense = [], []
