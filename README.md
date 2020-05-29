@@ -1,6 +1,6 @@
 # TorchCTR
 
-TorchCTR is a demo package of deep-learning based CTR models. You can use any high-order model with `model.fit()` and `mode.test`.
+TorchCTR is a demo package of deep-learning based CTR models. You can use any high-order model with `model.fit()` and `model.test()`.
 
 ## Models List
 
