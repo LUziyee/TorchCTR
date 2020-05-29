@@ -42,7 +42,6 @@ if __name__ == "__main__":
 
     model = NFM(module_columns_dict=module_columns_dict,
                    hidden_units=hidden_units,
-                learning_rate=0.01
                    )
 
     # 4.split train test dataset
@@ -55,6 +54,6 @@ if __name__ == "__main__":
         testx_dict[name] = testx[name]
 
     # 5.compile and train model
-    model.compile(optimizer="adam",loss="binary_crossentropy",metrics=["auc"])
+    model.compile(optimizer="adam",loss="binary_crossentropy",metrics=["auc"],learning_rate=0.01)
     model.fit(trainx_dict,trainy)
     model.test(testx_dict, testy)

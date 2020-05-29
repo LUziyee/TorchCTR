@@ -19,7 +19,6 @@ class NCF(BaseModel):
     def __init__(self,module_columns_dict,hidden_units=[256,128], task="binary",
                  init_std=0.0001,dropout_rate=0,activation="relu"):
         """
-
         :param module_columns_dict:
         :param hidden_units:
         :param task:

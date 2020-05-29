@@ -43,7 +43,6 @@ class NFM(BaseModel):
 
     def forward(self,x):
         """
-
         :param x: A 3D tensor with shape:(batch,field)
         :return: 2D tensor with shape:(batch,1)
         """

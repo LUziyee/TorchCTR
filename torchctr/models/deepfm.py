@@ -15,7 +15,6 @@ class DeepFM(BaseModel):
     def __init__(self, module_columns_dict, hidden_units=[256,128], task="binary",
                  init_std=0.0001,dropout_rate=0,activation="relu"):
         """
-
         :param module_columns_dict: dict, {feat_name:[sparsefeat1,sparsefeat2,densefeat1,...]}
         :param hidden_units:list, default=[256,128,64]
         :param task: string,

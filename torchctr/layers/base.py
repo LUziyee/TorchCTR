@@ -76,7 +76,6 @@ class PredictionLayer(torch.nn.Module):
     """
     def __init__(self,task="binary",use_bias=True):
         """
-
         :param task: String name of task
         :param use_bias: bool
         """
@@ -98,7 +97,6 @@ class PredictionLayer(torch.nn.Module):
 
     def forward(self,inputs):
         """
-
         :param inputs: the layer's output of model
         :return: final output of model
         """

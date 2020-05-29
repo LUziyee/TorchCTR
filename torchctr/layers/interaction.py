@@ -10,6 +10,7 @@ import torch
 import torch.nn as nn
 from torchctr.layers.activation import activation_layer
 from torchctr.layers.base import DNN
+import itertools
 
 
 class FM(torch.nn.Module):
@@ -146,7 +147,7 @@ class AttentionBasedPooling(torch.nn.Module):
         - A 3D tensor with shape:``(batch_size,field_size,embedding_size)``.
 
       Output shape
-        - 2D tensor with shape: ``(batch_size,embedding_size)``.
+        - 2D tensor with shape: ``(batch_size,1)``.
 
       References
         - Xiao, Jun, et al. “Attentional Factorization Machines: Learning the Weight of Feature Interactions via Attention Networks.” Twenty-Sixth International Joint Conference on Artificial Intelligence, 2017, pp. 3119–3125.
@@ -165,14 +166,20 @@ class AttentionBasedPooling(torch.nn.Module):
 
     def forward(self,x):
         """
-
-        :param x:
-        :return:
+        :param x: A 3D tensor with shape:(batch_size,field,embedding_dim)``.
+        :return: 2D tensor with shape: ``(batch,embedding_dim)``.
         """
-        square_of_sum = torch.pow(torch.sum(x,dim=1,keepdim=True),2) #(batch,1,embedding_dim)
-        sum_of_square = torch.sum(torch.pow(x,2),dim=1,keepdim=True) #(batch,1,embedding_dim)
-        cross_tmp = square_of_sum-sum_of_square
-        attention_weight = self.softmax(self.socre(self.dnn(cross_tmp)))
+        filed_list = [i for i in range(x.shape[1])]
+        cross_list = []
+        for i,j in itertools.combinations(filed_list,2):
+            cross_list.append(x[:,[i],:]*x[:,[j],:])
+        cross_x = torch.cat(cross_list,dim=1)  #(batch_size,C^filed_2,embedding_dim)
+        attention_weight = self.softmax(self.socre(self.dnn(cross_x)).squeeze()).unsqueeze(dim=2) #(batch,C^filed_2,1)
+        pool = torch.sum(cross_x*attention_weight,dim=1,keepdim=False)
+        afm = torch.sum(pool,dim=1,keepdim=True)
+        return afm
+
+
 
 
 
