@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-#
-#-------------------------------------------------------------------------------
+"""
 # Name:         inputs
 # Description:
 # Author:       路子野
 # Date:         2020/5/27
-#-------------------------------------------------------------------------------
+"""
 
 import torch
+import torch.nn as nn
 
 class SparseFeat():
     """
@@ -37,7 +38,7 @@ class DenseFeat():
         self.dim = 1
 
 
-def creatEmbeddingMatrix(feat_columns,init_std=0.001):
+def creatEmbeddingMatrix(feat_columns,init_std):
     """
     generate embedding matrix object for sparse feature
     :param feat_columns: List include SparseFeat objects and DenseFeat Objects

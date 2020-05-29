@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-#
-#-------------------------------------------------------------------------------
-# Name:         activation
-# Description:
-# Author:       路子野
-# Date:         2020/5/26
-#-------------------------------------------------------------------------------
+"""
+Name:         activation
+Author:       路子野
+Date:         2020/5/26
+"""
 
 import torch
+import torch.nn as nn
 
 class NonAct(torch.nn.Module):
     def __init__(self):
@@ -14,6 +14,7 @@ class NonAct(torch.nn.Module):
 
     def forward(self,X):
         return X
+
 
 def activation_layer(act_name,hidden_size=None,dice_dim=2):
     """
@@ -30,7 +31,7 @@ def activation_layer(act_name,hidden_size=None,dice_dim=2):
     elif act_name.lower() == "tanh":
         act_layer = torch.nn.Tanh()
     elif act_name.lower() == "relu":
-        act_layer = torch.nn.Relu()
+        act_layer = torch.nn.ReLU()
     else:
         raise NotImplementedError
 
