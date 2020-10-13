@@ -30,7 +30,7 @@ class AFM(BaseModel):
                          init_std=init_std,
                          task=task)
 
-        self.afm = AttentionBasedPooling(embedding_dim=self.module_columns[0][0].embedding_dim,
+        self.afm = AttentionBasedPooling(embedding_dim=self.module_cols[0][0].embedding_dim,
                                          hidden_units=hidden_units,
                                          activation=activation,
                                          dropout_rate=dropout_rate,

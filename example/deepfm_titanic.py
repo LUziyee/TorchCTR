@@ -47,9 +47,7 @@ if __name__ == "__main__":
                            "deep":sparseFeats+denseFeats}
     hidden_units = [256,128]
 
-    model = DeepFM(module_columns_dict=module_columns_dict,
-                   hidden_units=hidden_units,
-                   )
+    model = DeepFM(module_cols_dict=module_columns_dict, hidden_units=hidden_units)
 
     # 4.split train test dataset
     x = df[sparse_feat_name+dense_feat_name]

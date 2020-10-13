@@ -47,10 +47,10 @@ class NFM(BaseModel):
         :return: 2D tensor with shape:(batch,1)
         """
         embedding_list = []
-        for index, feat in enumerate(self.module_columns[0]):
+        for index, feat in enumerate(self.module_cols[0]):
             if isinstance(feat, SparseFeat):
                 feat_id = x[:, [index]].long()
-                embedding_list.append(self.embedding_dict[feat.name](feat_id)) #[(batch,1,embedding_dim)]
+                embedding_list.append(self.embed_dict[feat.name](feat_id)) #[(batch,1,embedding_dim)]
             else:
                 raise ValueError("nfm model can not have dense feature!")
         pool_input = torch.cat(embedding_list, dim=1)  # (batch,filed,embedding_dim)

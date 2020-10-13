@@ -12,29 +12,30 @@ from torchctr.layers.interaction import FM
 
 
 class DeepFM(BaseModel):
-    def __init__(self, module_columns_dict, hidden_units=[256,128], task="binary",
+    def __init__(self, module_cols_dict, hidden_units=[256,128,64], task="binary",
                  init_std=0.0001,dropout_rate=0,activation="relu"):
         """
-        :param module_columns_dict: dict, {feat_name:[sparsefeat1,sparsefeat2,densefeat1,...]}
+        :param module_cols_dict: dict, {module_name:[sparsefeat1,sparsefeat2,densefeat1,...]}
         :param hidden_units:list, default=[256,128,64]
         :param task: string,
         :param init_std: float, used to initialize layer weight and embedding weight
         """
-        self.module_columns = []  #存储所有组件的 特征对象 ，tips:特征对象是有重复的
+        self.module_cols = []  #存储所有组件的 特征对象 ，tips:特征对象是有重复的 2D-List
         try:
             #把各个组件的特征对象放进list去
-            self.module_columns.append(module_columns_dict["fm"])
-            self.module_columns.append(module_columns_dict['deep'])
+            self.module_columns.append(module_cols_dict["fm"])
+            self.module_columns.append(module_cols_dict['deep'])
         except:
             raise ValueError("the module's name is wrong")
 
-        super().__init__(module_columns=self.module_columns,
+        super().__init__(module_cols=self.module_cols,
                          init_std=init_std,
                          task=task)
 
         if not hidden_units:
             raise ValueError("hidden_unit can't be empty")
 
+        #因为self.module_cols=[fm,deep],所以传参为1
         deep_input_dim = self._getInputDim(1)
 
         self.dnn = DNN(input_dim=deep_input_dim,

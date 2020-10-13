@@ -13,46 +13,30 @@ class SparseFeat():
     """
 
     """
-    def __init__(self,name,vocabulary_size,embedding_dim):
+    def __init__(self,name,vocab_size,embed_dim):
         """
 
-        :param name: String sparse feature name
-        :param vocabulary_size: Integer
-        :param embedding_dim: Integer
+        :param name: String, means sparse feature's name
+        :param vocab_size: Integer, means vocabulary size
+        :param embed_dim: Integer, means embedding vector's length
         """
         self.name = name
-        self.vocabulary_size = vocabulary_size
-        self.embedding_dim = embedding_dim
+        self.vocab_size = vocab_size
+        self.embed_dim = embed_dim
 
 
 class DenseFeat():
     """
 
     """
-    def __init__(self,name,):
+    def __init__(self,name,dim=1):
         """
 
-        :param name: String dense feature nanme
+        :param name: String, means dense feature's nanme
         """
         self.name = name
-        self.dim = 1
+        self.dim = dim
 
-
-def creatEmbeddingMatrix(feat_columns,init_std):
-    """
-    generate embedding matrix object for sparse feature
-    :param feat_columns: List include SparseFeat objects and DenseFeat Objects
-    :param init_std: float
-    :return:
-    """
-    embedding_dict = torch.nn.ModuleDict()
-    for feat in feat_columns:
-        if isinstance(feat,SparseFeat):
-            embedding_dict[feat.name] = torch.nn.Embedding(feat.vocabulary_size,feat.embedding_dim)
-
-    for matrix in embedding_dict.values():
-        torch.nn.init.normal_(matrix.weight,mean=0,std=init_std)
-    return embedding_dict
 
 
 

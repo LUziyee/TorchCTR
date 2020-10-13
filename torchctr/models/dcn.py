@@ -11,7 +11,7 @@ from torchctr.layers.activation import activation_layer
 import torch
 import torch.nn as nn
 from torchctr.models.basemodel import BaseModel
-from torchctr.inputs import SparseFeat,DenseFeat,creatEmbeddingMatrix
+from torchctr.inputs import SparseFeat,DenseFeat
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -65,8 +65,8 @@ class DCN(BaseModel):
         :param x: 2D tensor, with shape (batch,filed*module)
         :return:
         """
-        cross_x = x[:,:len(self.module_columns[0])]
-        deep_x = x[:,len(self.module_columns[1]):]
+        cross_x = x[:,:len(self.module_cols[0])]
+        deep_x = x[:, len(self.module_cols[1]):]
 
         cross_input = self._get2Dtensor(cross_x,0)  # (batch,filed*embedding_dim+dense)
         cross = self.cross_net(cross_input)  #(batch,input_dim)

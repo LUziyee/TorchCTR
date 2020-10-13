@@ -8,7 +8,7 @@ Date:         2020/5/26
 
 import torch
 from torch.utils.data import DataLoader
-from torchctr.inputs import creatEmbeddingMatrix, SparseFeat, DenseFeat
+from torchctr.inputs import SparseFeat, DenseFeat
 from torchctr.utils import TorchCtrData, collate_fn
 import numpy as np
 from sklearn.metrics import roc_auc_score,f1_score
@@ -19,9 +19,10 @@ class BaseModel(torch.nn.Module):
     """
     The basemodel of all high-order model, which achieve the train and test function
     """
-    def __init__(self, module_columns, init_std, task):
+    def __init__(self, module_cols, init_std, task):
         """
-        :param module_columns: 2D list, include each module's feature object list, which include SparseFeat objects and DenseFeat objects
+        :param module_cols: 2D-List, include each module's feature object list, which include SparseFeat objects and DenseFeat objects
+            e.g. [[feat1,feat2,feat3],[feat1,feat3,feat4,feat5,feat6],[feat3]]
         :param init_std: float, used to initialize layer weight and embedding weight
         :param task: string,
         """
@@ -35,17 +36,17 @@ class BaseModel(torch.nn.Module):
             3.self.sparse_feats用来记录unique feat objects,用来生成embedding_dict，这里的设定是考虑不同组件如果使用同一个特征的话是共享embedding matrix
             的。如果不想共享embedding,那么需要用户在使用时对特征做一下命名区分，比如userid,改成userid_module1,user_id_module2
             
-            4.只有顶层模型的参数才设默认值，BaseModel和其他组件的参数都不设默认值，都需要靠顶层模型来传递参数，这样才不会混乱，当然，BaseModel的fit函数等需要
-            设置默认值，因为这些是用户直接只用的api，所以需要默认值。
+            4.只有顶层模型的参数才设默认值，BaseModel和其他组件的参数都不设默认值，都需要靠顶层模型来传递参数，这样才不会混乱，也避免了写代码写忘了的问题，
+            当然，BaseModel的fit函数等需要设置默认值，因为这些是用户直接只用的api，所以需要默认值。
         """
         super().__init__()
 
-        self.sparse_feats = set()  # 记录所有的类别特征
-        self.module_columns = [self.__sortColumns(module) for module in module_columns]  # 排序,使得每个组件的特征排列都是类别特征在前
-        self.sparse_feats = list(self.sparse_feats)  # 把去重后的类别特征转换成数组
+        self.sparse_feats = set()  # 记录所有的类别特征，在特征排序时会记录下所有的类别特征
+        self.module_cols = [self._sortCols(module) for module in module_cols]  # 排序,使得每个组件的特征排列都是类别特征在前
+        self.sparse_feats = list(self.sparse_feats)  # 把去重后的类别特征转换成数组，方便后面创建embedding矩阵字典
 
         self.task = task
-        self.embedding_dict = creatEmbeddingMatrix(self.sparse_feats, init_std)
+        self.embed_dict = self._creatEmbedMatrix(init_std)
 
     def compile(self, optimizer, loss, metrics=[],learning_rate=0.001,l2_reg=0.0001):
         """
@@ -58,10 +59,10 @@ class BaseModel(torch.nn.Module):
         self.metrics = metrics
         self.learning_rate = learning_rate
         self.l2_reg = l2_reg
-        self.optim = self.__getOptim(optimizer)
-        self.loss = self.__getLoss(loss)
+        self.optim = self._getOptim(optimizer)
+        self.loss = self._getLoss(loss)
 
-    def __getOptim(self, optimizer):
+    def _getOptim(self, optimizer):
         if optimizer.lower() == "sgd":
             optim = torch.optim.SGD(self.parameters(), lr=self.learning_rate, weight_decay=self.l2_reg)
         elif optimizer.lower() == "adam":
@@ -70,7 +71,7 @@ class BaseModel(torch.nn.Module):
             raise NotImplementedError
         return optim
 
-    def __getLoss(self, loss):
+    def _getLoss(self, loss):
         if loss.lower() == "binary_crossentropy":
             loss = torch.nn.BCELoss()
         elif loss.lower() == "multi_crossentropy":
@@ -99,7 +100,7 @@ class BaseModel(torch.nn.Module):
         self.epochs = epochs
 
         list_x = []
-        for module in self.module_columns:
+        for module in self.module_cols:
             for feat in module:
                 list_x.append(x[feat.name].tolist())
         x = np.array(list_x) #（filed*module,data_len),每个组件需要的特征 x 组件个数
@@ -131,7 +132,7 @@ class BaseModel(torch.nn.Module):
             epoch_mean_loss = epoch_loss / batchs
             metric_result = []
             for metric in self.metrics:
-                metric_result.append(self.__metric(metric,y_hat,y))
+                metric_result.append(self._metric(metric, y_hat, y))
             if verbose==0:
                 pass
             elif epoch%verbose==0:
@@ -155,7 +156,7 @@ class BaseModel(torch.nn.Module):
         :return:
         """
         list_x = []
-        for module in self.module_columns:
+        for module in self.module_cols:
             for feat in module:
                 list_x.append(x[feat.name].tolist())
         x = np.array(list_x)  # （filed*module,data_len),每个组件需要的特征 x 组件个数
@@ -182,7 +183,7 @@ class BaseModel(torch.nn.Module):
         epoch_mean_loss = epoch_loss / batchs
         metric_result = []
         for metric in self.metrics:
-            metric_result.append(self.__metric(metric, y_hat, y))
+            metric_result.append(self._metric(metric, y_hat, y))
         print()
         print("==========Test Stage========")
         print("test loss:{:.5f}".format(epoch_mean_loss), end=" ")
@@ -190,10 +191,15 @@ class BaseModel(torch.nn.Module):
             print("{}:{:.5f}".format(metric, result), end=" ")
         print()
 
-
-    def __sortColumns(self, columns):
+    def _sortCols(self, cols):
+        """
+        1.特征排序，使得离散特征在连续特征前面
+        2.把每个离散特征都加到self.sparse_feats里面
+        :param columns: List including SparseFeat&DenseFeat
+        :return:
+        """
         sparse, dense = [], []
-        for feat in columns:
+        for feat in cols:
             if isinstance(feat, SparseFeat):
                 sparse.append(feat)
                 self.sparse_feats.add(feat)
@@ -201,29 +207,29 @@ class BaseModel(torch.nn.Module):
                 dense.append(feat)
         return sparse + dense
 
-    def __metric(self,metric,y_hat,y):
+    def _metric(self, metric, y_hat, y):
         """
         :param metric: str
         :return:
         """
-        if metric.lower()=="auc":
-            return roc_auc_score(y,y_hat)
-        elif metric.lower()=="f1-score":
-            return f1_score(y_hat,y)
+        if metric.lower() == "auc":
+            return roc_auc_score(y, y_hat)
+        elif metric.lower() == "f1-score":
+            return f1_score(y_hat, y)
         else:
             raise NotImplementedError
 
-    def _getInputDim(self,i):
+    def _getInputDim(self, i):
         """
         计算某个组件的输入维度，最典型的应用就是计算dnn的input_dim
         :param i: Integer, denote i-th module, as the index of module_columns
         :return: Integer, input_dim
         """
-        module = self.module_columns[i]
+        module = self.module_cols[i]
         input_dim = 0
         for feat in module:
             if isinstance(feat,SparseFeat):
-                input_dim += feat.embedding_dim
+                input_dim += feat.embed_dim
             else:
                 input_dim += feat.dim
         return input_dim
@@ -236,13 +242,13 @@ class BaseModel(torch.nn.Module):
         :return: 3D tensor with shape (batch,filed,embedding_dim)
         """
         embedding_list = []
-        for index,feat in enumerate(self.module_columns[i]):
+        for index,feat in enumerate(self.module_cols[i]):
             feat_id = x[:,[index]].long()  #(batch,1)
-            embedding_list.append(self.embedding_dict[feat.name](feat_id))  #[(batch,1,embedding_dim)]
+            embedding_list.append(self.embed_dict[feat.name](feat_id))  #[(batch,1,embedding_dim)]
         fm_input = torch.cat(embedding_list,dim=1) #(batch,filed,embedding_dim)
         return fm_input
 
-    def _get2Dtensor(self,x,i):
+    def _get2Dtensor(self, x, i):
         """
         将类别特征的id在对应的embedding matrix中进行lookup,并进行concat,并将连续特征拼接在后面
         :param x: 2D tensor with shape (batch,filed+dense)
@@ -251,12 +257,29 @@ class BaseModel(torch.nn.Module):
         """
         embedding_list = []
         dense_list = []
-        for index, feat in enumerate(self.module_columns[i]):
+        for index, feat in enumerate(self.module_cols[i]):
             if isinstance(feat, SparseFeat):
                 feat_id = x[:, [index]].long()
-                embedding_list.append(self.embedding_dict[feat.name](feat_id).squeeze(dim=1))
+                embedding_list.append(self.embed_dict[feat.name](feat_id).squeeze(dim=1))
             else:
                 dense_list.append(x[:, [index]].float())
         deep_input = torch.cat(embedding_list + dense_list, dim=1)  # (batch,filed*embedding_dim+dense)
         return deep_input
+
+    def _creatEmbedMatrix(self, init_std):
+        """
+        generate embedding matrix object for sparse feature
+        :param init_std: float
+        :return:
+        待填的坑：
+            1.自定义的初始化方式
+        """
+        self.embed_dict = torch.nn.ModuleDict()
+        for feat in self.sparse_feats:
+            if isinstance(feat, SparseFeat):
+                self.embed_dict[feat.name] = torch.nn.Embedding(feat.vocab_size, feat.embed_dim)
+
+        for matrix in self.embed_dict.values():
+            torch.nn.init.normal_(matrix.weight, mean=0, std=init_std)
+
 

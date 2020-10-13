@@ -17,7 +17,7 @@ class DNN(torch.nn.Module):
         When meet sequence task, the input will be a 3D tensor.
 
     Output shape:
-        - nD tensor with shape:``(batch_size, ..., hidden_size[-1])```.
+        - nD tensor with shape:``(batch_size, ..., hidden_units[-1])```.
         For example, for a 2D input with shape ``(batch_size,input_dim)``, the output would have shape ``(batch_size,hidden_size[-1])
     '''
 
@@ -29,6 +29,10 @@ class DNN(torch.nn.Module):
         :param activation: String activation function to use in each hidden layer's output
         :param dropout_rate: float used to initialize layers' weight
         :param init_std:
+        设计思路:
+            普通的前向传播，每层加上激活函数，最后一层也加，DNN这个设计应该是除了
+        待填坑：
+            1.每层的激活函数可以修改自定义不？
         """
         super().__init__()
 
