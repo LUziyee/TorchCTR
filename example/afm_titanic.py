@@ -17,6 +17,7 @@ from sklearn.preprocessing import LabelEncoder,MinMaxScaler
 warnings.filterwarnings("ignore")
 
 if __name__ == "__main__":
+    # fsdfadgfdsgfdsa
     df = pd.read_csv(r"E:\DataSets\titanic\train.csv")
     target = ["Survived"] ##注意，这里有个隐藏bug，以后再fix
     sparse_feat_name = ['Pclass','Sex','Cabin','Embarked']
