@@ -150,30 +150,3 @@ class LocalActivationUnit(torch.nn.Module):
         attention_weight = self.softmax(self.score(attention_output).squeeze(dim=-1)).unsqueeze(dim=2)
 
         return attention_weight
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

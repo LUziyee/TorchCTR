@@ -41,7 +41,7 @@ class TorchCtrData(Dataset):
 
 def collate_fn(batch):
     """
-    :param batch: tuple (batch_x,batch_y)
+    :param batch: tuple (batch_x,batch_y)  ???这个注释有问题吧
     :return:
     """
     batch = np.array(batch)
